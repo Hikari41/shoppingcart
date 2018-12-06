@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!--namespace对应的dao接口-->
+<mapper namespace="com.cheer.cart.dao.OrderMapper">
+    <select id="getOrder" resultMap="order">
+        select order_id 订单号,
+                time 下单时间,
+                goods_name 商品名称,
+                total 消费金额
+                from `order` where user_id = #{userId}
+    </select>
+
+    <resultMap id="order" type="hashmap">
+        <id property="orderId" column="order_id"></id>
+        <result property="time" column="time"></result>
+        <result property="goodsName" column="goods_name"></result>
+        <result property="total" column="total"></result>
+    </resultMap>
+
+    <delete id="deleteOrder" >
+        delete from `order` where order_id = #{orderId} and user_id = #{userId}
+    </delete>
+
+    <insert id="addOrder">
+        insert into `order` set order_id = #{orderId}, goods_name = #{goodsName},
+                                  total = #{total}, user_id =#{userId}
+    </insert>
+
+    <select id="getId" resultType="int">
+        select count(1) from `order` where user_id = #{userId}
+    </select>
+
+    <select id="getCount" resultType="int">
+        select count(1) from `order` where goods_name = #{goodsName} and user_id = #{userId}
+    </select>
+    
+    <select id="getTotal" resultType="double">
+        select total from `order` where order_id = #{orderId} and user_id = #{userId};
+    </select>
+
+    <select id="getNum" resultType="int">
+        select count(1) from `order` where order_id = #{orderId} and user_id = #{userId};
+    </select>
+
+</mapper>

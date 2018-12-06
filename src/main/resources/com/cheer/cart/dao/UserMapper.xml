@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!--namespace对应的dao接口-->
+<mapper namespace="com.cheer.cart.dao.UserMapper">
+    <select id="get" resultMap="user">
+        select * from user where username = #{username}
+    </select>
+
+    <resultMap id="user" type="User">
+        <id property="userId" column="user_id"></id>
+        <result property="username" column="username"></result>
+        <result property="password" column="password"></result>
+        <result property="money" column="money"></result>
+    </resultMap>
+
+    <select id="getUser" resultType="int">
+        select count(1) from user where username = #{username}
+    </select>
+
+    <select id="getPass" resultType="int">
+        select count(1) from user where password = #{password}
+    </select>
+
+    <insert id="add">
+        insert into user set user_id = #{userId}, username = #{username}, password = #{password}
+    </insert>
+
+    <select id="entry" resultType="int" parameterType="String">
+        select count(*) from user where username = #{username} and password = #{password}
+    </select>
+
+    <update id="update">
+        update user set password = #{password} where username = #{username}
+    </update>
+
+    <update id="updateMoney">
+        update user set money = #{money} where user_id = #{userId}
+    </update>
+
+    <select id="getMoney" resultType="double">
+        select money from user where user_id = #{userId}
+    </select>
+
+    <select id="getId" resultType="user">
+        select * from user where user_id = #{userId}
+    </select>
+</mapper>

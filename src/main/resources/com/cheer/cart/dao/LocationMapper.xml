@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!--namespace对应的dao接口-->
+<mapper namespace="com.cheer.cart.dao.LocationMapper">
+    <insert id="addLoc">
+        insert into location set addressee = #{addressee},phone_num = #{phoneNum},
+        loc_name = #{locName},user_id = #{userId}
+    </insert>
+
+    <update id="updateLoc">
+        UPDATE location
+        <trim prefix="set" suffixOverrides=",">
+            <if test="addressee != null"> addressee = #{addressee},</if>
+            <if test="phone_num != null">phone_num = #{phoneNum},</if>
+            <if test="loc_name != null">loc_name = #{locName},</if>
+        </trim>
+        WHERE loc_name = #{locName} and user_id = #{userId}
+    </update>
+
+    <delete id="delete">
+        delete from location where loc_name = #{locName} and user_id = #{userId}
+    </delete>
+
+    <insert id="addId">
+        insert into location (user_id) values (#{userId})
+    </insert>
+
+    <select id="getLoc" resultMap="hashmap">
+        select addressee 收件人,
+                phone_num 手机号,
+                loc_name 地址
+                from location
+                where user_id = #{userId}
+    </select>
+    
+    <resultMap id="hashmap" type="hashmap">
+        <id property="userId" column="user_id"></id>
+        <result property="addressee" column="addressee"></result>
+        <result property="phoneNum" column="phone_num"></result>
+        <result property="locName" column="loc_name"></result>
+    </resultMap>
+
+    <select id="getId" resultType="int">
+        select count(1) from location where user_id = #{userId}
+    </select>
+
+    <select id="getCount" resultType="int">
+        select count(1) from location where loc_name = #{locName} and user_id = #{userId}
+    </select>
+
+    <select id="getLocation" resultType="location">
+        select addressee 收件人,
+                phone_num 手机号,
+                loc_name 地址
+                from location
+                where loc_name = #{locName} and user_id = #{userId}
+    </select>
+</mapper>

@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!--namespace对应的dao接口-->
+<mapper namespace="com.cheer.cart.dao.GoodsMapper">
+    <select id="getGoods" resultType="hashmap">
+        select goods_id 商品编号,
+                goods_name 商品名称,
+                price 商品价格,
+                surplus 商品库存剩余
+                from goods where 1 = 1
+    </select>
+
+    <select id="getId" resultMap="goods">
+        select * from goods where goods_id = #{goodsId}
+    </select>
+
+    <resultMap id="goods" type="Goods">
+        <id property="goodsId" column="goods_id"></id>
+        <result property="goodsName" column="goods_name"></result>
+        <result property="price" column="price"></result>
+        <result property="surplus" column="surplus"></result>
+    </resultMap>
+
+    <select id="getName" resultType="goods">
+        select * from goods where goods_name = #{goodsName}
+    </select>
+
+    <insert id="addGoods">
+        insert into goods values (#{goodsId},#{goodsName},#{price},#{surplus})
+    </insert>
+
+    <delete id="deleteGoods">
+        delete from goods where goods_id = #{goodsId}
+    </delete>
+
+    <update id="updatePri">
+        update goods set price = #{price} where goods_id = #{goodsId}
+    </update>
+
+    <update id="updateSur">
+        update goods set surplus = #{surplus} where goods_id = #{goodsId}
+    </update>
+
+    <select id="getSurplus" resultType="Integer">
+        select surplus from goods where goods_id = #{goodsId}
+    </select>
+
+    <select id="getGoodsId" resultType="int">
+        select count(1) from goods where goods_id = #{goodsId}
+    </select>
+
+    <select id="getPrice" resultType="double">
+        select price from goods where goods_id = #{goodsId}
+    </select>
+
+    <select id="getSur" resultType="int">
+        select price from goods where goods_name = #{goodsName}
+    </select>
+</mapper>
